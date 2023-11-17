@@ -1,23 +1,38 @@
 import logo from './logo.svg';
 import './App.css';
+import Test from "./Component/Test"
+import Header from './Component/Header';
+import Subject from './Component/Subject';
+import Courses from './Component/Courses';
+import { Row, Col } from 'reactstrap';
+import Menu from './Component/Menu';
+import Home  from './Component/Home';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import StartTest from './Component/StartTest'
+import Result from './Component/Result';
+import UpdateSubject from './Component/UpdateSubject'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      <Header />
+        <Row>
+          <Col xs="2">
+            <Menu />
+          </Col>
+          <Col>
+            <Routes>
+                <Route path="/" Component={Home} />
+                <Route path="/subjects" Component={Courses} />
+                <Route path="/startTest" Component={StartTest} />
+                <Route path="/result" Component={Result} />
+                <Route path="/update-subject" Component={UpdateSubject} />
+            </Routes>
+          </Col>
+        </Row>
+      </BrowserRouter>
     </div>
   );
 }
