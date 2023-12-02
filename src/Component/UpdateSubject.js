@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Button, Form, FormGroup, Label, Input, FormText, Card, CardBody } from 'reactstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from "axios";
@@ -8,8 +8,27 @@ const UpdateSubject = () => {
 
     const [addQues, setAddQues] = useState(false);
 
+    const [allSubs, setAllSubs] = useState([]);
+
+    const [cSelected, setcSelected] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const getSubApi = base_url + "/getAllSubject";
+            try {
+                const response = await axios.get(getSubApi);
+                setAllSubs(response.data.subjects);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData(); // Call the async function immediately
+    
+    }, []);
+
     const [formData, setFormData] = useState({
-        subject: '',
+        subject: 'Java',
         ques: '',
         "1": '',
         "2": '',
@@ -53,6 +72,7 @@ const UpdateSubject = () => {
         }
         const postUrl = base_url + "/addQuestion";
         try {
+            console.log(body);
             const response = await axios.post( postUrl ,body )
             toast.success("Question Added Successfully!!")
             setFormData({
@@ -70,18 +90,34 @@ const UpdateSubject = () => {
 
     }
 
+    const onCheckboxBtnClick = () => {
+        
+        if (cSelected) {
+            setcSelected(false);
+        } else {
+            setcSelected(true);
+        }
+      }
+
     return (
         <Form className="button-group-text">
             <ToastContainer/>
             <FormGroup>
-                <Label for="subjectSelect">Select Subject</Label>
-                <Input type="select" name="subject" id="subjectSelect" value={formData.subject} onChange={handleChange}>
-                    <option>Java</option>
-                    <option>C++</option>
-                    <option>Python</option>
-                    <option>Machine Learning</option>
-                    <option>AI</option>
-                </Input>
+                <input type="checkbox" onClick={onCheckboxBtnClick} />
+                <Label for="subjectSelect">Add New Subject</Label>
+                {
+                    cSelected 
+                    ?
+                        <Input type="textarea" name="subject" id="subjectSelect" value={formData.subject} onChange={handleChange} />
+                    : 
+                        <Input type="select" name="subject" id="subjectSelect" value={formData.subject} onChange={handleChange}>
+                        {
+                            allSubs && allSubs.map((sub, index) => (
+                                <option>{sub.name}</option>
+                            ))
+                        }
+                        </Input>
+                }
             </FormGroup>
 
             <FormGroup>

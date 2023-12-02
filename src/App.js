@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import StartTest from './Component/StartTest'
 import Result from './Component/Result';
 import UpdateSubject from './Component/UpdateSubject'
+import addSubject from './Component/addSubject'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/startTest" Component={StartTest} />
                 <Route path="/result" Component={Result} />
                 <Route path="/update-subject" Component={UpdateSubject} />
+                {/* <Route path="/add-subject" Component={addSubject} /> */}
             </Routes>
           </Col>
         </Row>
